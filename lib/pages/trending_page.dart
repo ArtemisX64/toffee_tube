@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:toffee_gravy/models/trending.dart';
+import 'package:toffee_tube/pages/player_page.dart';
 
 class TrendingPage extends StatefulWidget {
   const TrendingPage({super.key});
@@ -46,39 +47,37 @@ class _TrendingPageState extends State<TrendingPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Trending'),
-        centerTitle: true,
-      ),
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : isDesktop
+      appBar: AppBar(title: const Text('Trending'), centerTitle: true, bottom: TabBar(tabs: [Icon(Icons.whatshot), Icon(Icons.featured_play_list), Icon(Icons.tv)]),),
+      body:
+          loading
+              ? const Center(child: CircularProgressIndicator())
+              : isDesktop
               ? ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  itemCount: extractor.trendingList.length,
-                  itemBuilder: (context, index) {
-                    final video = extractor.trendingList[index];
-                    return _buildVideoCard(
-                      video,
-                      theme,
-                      thumbnailIndex: 2,
-                      isDesktop: true,
-                    );
-                  },
-                )
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                itemCount: extractor.trendingList.length,
+                itemBuilder: (context, index) {
+                  final video = extractor.trendingList[index];
+                  return _buildVideoCard(
+                    video,
+                    theme,
+                    thumbnailIndex: 1,
+                    isDesktop: true,
+                  );
+                },
+              )
               : ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  itemCount: extractor.trendingList.length,
-                  itemBuilder: (context, index) {
-                    final video = extractor.trendingList[index];
-                    return _buildVideoCard(
-                      video,
-                      theme,
-                      thumbnailIndex: 0,
-                      isDesktop: false,
-                    );
-                  },
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                itemCount: extractor.trendingList.length,
+                itemBuilder: (context, index) {
+                  final video = extractor.trendingList[index];
+                  return _buildVideoCard(
+                    video,
+                    theme,
+                    thumbnailIndex: 0,
+                    isDesktop: false,
+                  );
+                },
+              ),
     );
   }
 
@@ -88,9 +87,10 @@ class _TrendingPageState extends State<TrendingPage> {
     required int thumbnailIndex,
     required bool isDesktop,
   }) {
-    final thumbnail = (video.thumbnails.length > thumbnailIndex)
-        ? video.thumbnails[thumbnailIndex]
-        : video.thumbnails.last;
+    final thumbnail =
+        (video.thumbnails.length > thumbnailIndex)
+            ? video.thumbnails[thumbnailIndex]
+            : video.thumbnails.last;
 
     if (isDesktop) {
       // Desktop style: ListTile-like card with trailing overflow menu button
@@ -99,7 +99,12 @@ class _TrendingPageState extends State<TrendingPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         elevation: 2,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => VideoApp()),
+            );
+          },
           borderRadius: BorderRadius.circular(8),
           child: Container(
             padding: const EdgeInsets.all(8),
@@ -118,8 +123,9 @@ class _TrendingPageState extends State<TrendingPage> {
                           child: Image.network(
                             thumbnail.url,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) =>
-                                Container(color: Colors.grey.shade300),
+                            errorBuilder:
+                                (_, __, ___) =>
+                                    Container(color: Colors.grey.shade300),
                           ),
                         ),
                         Positioned(
@@ -127,7 +133,9 @@ class _TrendingPageState extends State<TrendingPage> {
                           right: 6,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.black.withAlpha(160),
                               borderRadius: BorderRadius.circular(4),
@@ -135,7 +143,9 @@ class _TrendingPageState extends State<TrendingPage> {
                             child: Text(
                               video.length,
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 12),
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ),
@@ -153,14 +163,18 @@ class _TrendingPageState extends State<TrendingPage> {
                         video.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.titleMedium?.copyWith(fontSize: 16),
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontSize: 16,
+                        ),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         '${video.channel.name} • ${video.viewCount} • ${video.published}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodySmall?.copyWith(fontSize: 13),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontSize: 13,
+                        ),
                       ),
                     ],
                   ),
@@ -182,14 +196,20 @@ class _TrendingPageState extends State<TrendingPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 2,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => VideoApp()),
+            );
+          },
           borderRadius: BorderRadius.circular(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(12)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12),
+                ),
                 child: SizedBox(
                   height: 220,
                   width: double.infinity,
@@ -199,8 +219,9 @@ class _TrendingPageState extends State<TrendingPage> {
                         child: Image.network(
                           thumbnail.url,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) =>
-                              Container(color: Colors.grey.shade300),
+                          errorBuilder:
+                              (_, __, ___) =>
+                                  Container(color: Colors.grey.shade300),
                         ),
                       ),
                       Positioned(
@@ -208,7 +229,9 @@ class _TrendingPageState extends State<TrendingPage> {
                         right: 6,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.black.withAlpha(160),
                             borderRadius: BorderRadius.circular(4),
@@ -216,7 +239,9 @@ class _TrendingPageState extends State<TrendingPage> {
                           child: Text(
                             video.length,
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 12),
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),
@@ -225,8 +250,7 @@ class _TrendingPageState extends State<TrendingPage> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -243,16 +267,18 @@ class _TrendingPageState extends State<TrendingPage> {
                             video.title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleMedium
-                                ?.copyWith(fontSize: 14),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontSize: 14,
+                            ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             '${video.channel.name} • ${video.viewCount} • ${video.published}',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodySmall
-                                ?.copyWith(fontSize: 12),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
