@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:toffee_tube/pages/trending_page.dart';
-import 'package:fvp/fvp.dart' as fvp;
+import 'package:media_kit/media_kit.dart';
+import 'package:toffee_gravy/reverse/youtube/youtube_client_handler.dart';
+import 'package:toffee_tube/pages/trending.dart';
+
 
 void main() {
-  fvp.registerWith(options: {'platforms': ['windows', 'linux']});
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  MediaKit.ensureInitialized();
+  final client = YoutubeClient();
+  runApp(ToffeeTube(client: client));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ToffeeTube extends StatelessWidget {
+  final YoutubeClient client;
+  const ToffeeTube({required this.client, super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      home: DefaultTabController(length: 3, child: TrendingPage()),
+      home: DefaultTabController(length: 3, child: TrendingPage(client: client,)),
     );
   }
 }
