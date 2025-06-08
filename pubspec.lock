@@ -450,10 +450,10 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: debb1e0e03aab965f9d4f523f3e873f16737ee3e
+      resolved-ref: "5f3c19fcdbb7dc6685fa074f54a1c40e626ce56f"
       url: "https://github.com/ArtemisX64/toffee_gravy.git"
     source: git
-    version: "1.1.0"
+    version: "1.1.10"
   typed_data:
     dependency: transitive
     description:

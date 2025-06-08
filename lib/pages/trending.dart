@@ -136,7 +136,7 @@ class _TrendingPageState extends State<TrendingPage> {
     required bool isDesktop,
   }) {
     final String thumbnail =
-        videoInfo.thumbnail.getThumbnailGeneric(ThumbnailQuality.low) ??
+        videoInfo.thumbnail.getThumbnailGeneric(ThumbnailQuality.medium) ??
         'https://via.placeholder.com/180';
 
     return Card(
@@ -155,8 +155,8 @@ class _TrendingPageState extends State<TrendingPage> {
                     isDesktop: isDesktop,
                     videoId: videoInfo.videoId,
                     client: widget.client,
-                    defaultQuality: Cquality.medium,
-                    defaultAudioQuality: Cquality.small,
+                    defaultVideoQuality: VideoQuality.sd360,
+                    defaultAudioQuality: AudioQuality.medium,
                   ),
             ),
           );
@@ -388,7 +388,7 @@ class _TrendingPageState extends State<TrendingPage> {
 
   Widget _buildShortCard(ShortInfo shortInfo, ThemeData theme) {
     final thumbnail = shortInfo.thumbnail.getThumbnailGeneric(
-      ThumbnailQuality.h720,
+      ThumbnailQuality.shorts,
     );
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.125,
@@ -407,8 +407,8 @@ class _TrendingPageState extends State<TrendingPage> {
                       isDesktop: isDesktop,
                       videoId: shortInfo.videoId,
                       client: widget.client,
-                      defaultQuality: Cquality.medium,
-                      defaultAudioQuality: Cquality.small,
+                      defaultVideoQuality: VideoQuality.sd360,
+                      defaultAudioQuality: AudioQuality.medium,
                     ),
               ),
             );
